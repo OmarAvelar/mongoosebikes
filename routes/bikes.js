@@ -3,15 +3,16 @@ const router = express.Router()
 const Bike = require('../models/Bike')
 
 router.get('/new',(req, res)=>{
-    Bike.create({
-        modelo:'ejercicio at home', 
-        photoURL:'https://cdn.shopify.com/s/files/1/0692/8675/products/circle_bike_b8.jpg?v=1512975974',
-        price:5000,
-        rodada:26,
-        withCasco:false
-     }).then(bike=>{
-         res.redirect('/bikes')
-     }).catch(e=>console.log(e))
+   res.render('bike-form')
+})
+
+router.post('/new',(req,res)=>{
+    if(req.body.withCasco=='on')req.body.withCasco=true
+    else req.body.withCasco = false
+    //console.log(req.body)
+    Bike.create(req.body).then(bike=>{
+        res.redirect('/bikes')
+    }).catch(e=>console.log(e))
 })
 //bikes list
 router.get('/bikes',(req, res)=>{
